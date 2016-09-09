@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 
@@ -11,6 +12,8 @@ import flixel.FlxG;
 class EscudoMaker extends FlxSprite
 {
 	private var cuadraditos:Array<Escudo>;
+	private var tempGroup:FlxGroup = new FlxGroup();
+
 	var x2:Int = 0;
 	var y2:Int = 8;
 	
@@ -35,10 +38,15 @@ class EscudoMaker extends FlxSprite
 		{
 			FlxG.state.add(cuadraditos[a]);
 		}
-		
+		for (i in 0...cuadraditos.length)
+		{
+			tempGroup.add(cuadraditos[i]);
+		}
+	}
 	
-		
-		
+	public function getGroup():FlxGroup
+	{
+		return tempGroup;
 	}
 	
 }

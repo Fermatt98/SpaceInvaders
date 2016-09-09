@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
@@ -11,13 +12,18 @@ class PlayState extends FlxState
 {
 	private var player:FlxSprite;
 	private var bullet:FlxSprite;
-	private var escudo:FlxSprite;
-	private var escudo2:FlxSprite;
-	private var escudo3:FlxSprite;
-	private var escudo4:FlxSprite;
+	private var escudo:EscudoMaker;
+	private var escudo2:EscudoMaker;
+	private var escudo3:EscudoMaker;
+	private var escudo4:EscudoMaker;
 	private var alien:Array<FlxSprite>;
 	private var shoot:Bool = false;
-	private var putoFlixel = false;
+	private var colision = false;
+	private var enemyGroup:FlxGroup;
+	private var escudoGroup:FlxGroup;
+	private var escudoGroup2:FlxGroup;
+	private var escudoGroup3:FlxGroup;
+	private var escudoGroup4:FlxGroup;
 	
 	override public function create():Void
 	{
@@ -29,9 +35,14 @@ class PlayState extends FlxState
 		escudo = new EscudoMaker(24, 110);
 		escudo2 = new EscudoMaker(53, 110);
 		escudo3 = new EscudoMaker(82, 110);
-		escudo4 = new EscudoMaker(111,110);
+		escudo4 = new EscudoMaker(111, 110);
+		escudoGroup = escudo.getGroup();
+		escudoGroup2 = escudo2.getGroup();
+		escudoGroup3 = escudo3.getGroup();
+		escudoGroup4 = escudo4.getGroup();
 		add(player);
 		alien = new Array<FlxSprite>();
+		enemyGroup = new FlxGroup();
 		AlienMaker();
 	}
 
@@ -56,6 +67,7 @@ class PlayState extends FlxState
 			add(bullet);
 			shoot = true;
 		}
+		
 		if (shoot == true)
 		{
 			if (bullet.y < 0)
@@ -63,20 +75,72 @@ class PlayState extends FlxState
 				bullet.destroy();
 				shoot = false;
 			}
+			else
+			{
+				for (i in 0...enemyGroup.length)
+				{
+					if (FlxG.overlap(bullet, enemyGroup.members[i]))
+					{
+						enemyGroup.members[i].kill();
+						bullet.destroy();
+						shoot = false;
+					}
+				}
+				for(i in 0...escudoGroup.length)
+				{
+					if (FlxG.overlap(bullet, escudoGroup.members[i]))
+					{
+						escudoGroup.members[i].destroy();
+						escudoGroup.remove(escudoGroup.members[ i]);
+						bullet.destroy();
+						shoot = false;
+					}
+				}
+				for(i in 0...escudoGroup2.length)
+				{
+					if (FlxG.overlap(bullet, escudoGroup2.members[i]))
+					{
+						escudoGroup2.members[i].destroy();
+						escudoGroup2.remove(escudoGroup2.members[ i]);
+						bullet.destroy();
+						shoot = false;
+					}
+				}
+				for(i in 0...escudoGroup3.length)
+				{
+					if (FlxG.overlap(bullet, escudoGroup3.members[i]))
+					{
+						escudoGroup3.members[i].destroy();
+						escudoGroup3.remove(escudoGroup3.members[ i]);
+						bullet.destroy();
+						shoot = false;
+					}
+				}
+				for(i in 0...escudoGroup4.length)
+				{
+					if (FlxG.overlap(bullet, escudoGroup4.members[i]))
+					{
+						escudoGroup4.members[i].destroy();
+						escudoGroup4.remove(escudoGroup4.members[ i]);
+						bullet.destroy();
+						shoot = false;
+					}
+				}
+			}
 		}
 		for (i in 0...alien.length)
 		{
-			if ((alien[i].x < 0 || alien[i].x > 160 - alien[i].width) && putoFlixel == false)
+			if ((alien[i].x < 0 || alien[i].x > 160 - alien[i].width) && colision == false)
 			{
 				for (k in 0...alien.length)
 				{
 					alien[k].y += 8;
 					alien[k].velocity.x *= -1;
 				}
-				putoFlixel = true;
+				colision = true;
 			}
 		}
-		putoFlixel = false;
+		colision = false;
 	}
 	
 	public function AlienMaker()
@@ -85,7 +149,8 @@ class PlayState extends FlxState
 		{
 			for (k in 0...8)
 			{
-				alien.push(new Alien((16 * k)+20, (8 * i)+24));
+				alien.push(new Alien((16 * k) + 20, (8 * i) + 24));
+				enemyGroup.add(alien[i * 8 + k]);
 				add(alien[i*8+k]);
 			}
 		}
