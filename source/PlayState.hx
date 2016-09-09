@@ -10,7 +10,10 @@ import flixel.math.FlxMath;
 class PlayState extends FlxState
 {
 	private var player:FlxSprite;
+	private var bullet:FlxSprite;
+	public var shoot:Bool = false;
 	override public function create():Void
+
 	{
 		super.create();
 		player = new FlxSprite();
@@ -34,6 +37,20 @@ class PlayState extends FlxState
 		else
 		{
 			player.velocity.x = 0;
+		}
+		if (FlxG.keys.justPressed.SPACE && shoot == false)
+		{
+			bullet = new Bullet((player.x + (player.width/2)), (player.y + (player.height/2)));
+			add(bullet);
+			shoot = true;
+		}
+		if (shoot == true)
+		{
+			if (bullet.y < 0)
+			{
+				bullet.destroy();
+				shoot = false;
+			}
 		}
 	}
 }

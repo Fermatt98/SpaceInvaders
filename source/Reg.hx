@@ -11,4 +11,5 @@ class Reg
 		inline static public var velPlayer:Int = 40;
 		inline static public var puntosEnemigo:Int = 100;
 		inline static public var puntosOvni:Int = 1000;
+		
 }
