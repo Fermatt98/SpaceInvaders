@@ -7,15 +7,15 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author ...
  */
-class Bullet extends FlxSprite
+class Alien extends FlxSprite
 {
 
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(2, 4);
-		x = X - (width / 2);
-		y = Y - (height / 2);
-		velocity.y = -200;
+		makeGraphic(8, 8);
+		x = X;
+		y = Y;
+		velocity.x = 5;
 	}
 }
