@@ -28,6 +28,7 @@ class PlayState extends FlxState
 	private var escudoGroup2:FlxGroup;
 	private var escudoGroup3:FlxGroup;
 	private var escudoGroup4:FlxGroup;
+	private var rndEntero:Int;
 	
 	override public function create():Void
 	{
@@ -47,6 +48,7 @@ class PlayState extends FlxState
 		add(player);
 		alien = new Array<FlxSprite>();
 		enemyGroup = new FlxGroup();
+		rndEnemi = new FlxRandom();
 		AlienMaker();
 	}
 
@@ -67,15 +69,15 @@ class PlayState extends FlxState
 		}
 		if (FlxG.keys.justPressed.SPACE && shoot == false)
 		{
-			bullet = new Bullet((player.x + (player.width/2)), (player.y + (player.height/2)));
+			bullet = new Bullet((player.x + (player.width/2)), (player.y + (player.height/2)),1);
 			add(bullet);
 			shoot = true;
 		}
 		if (shootEnemi == false)
 		{
-			rndEnemi.int(0, 40);
-			trace("hola");
-			//bulletEnemi = new Bullet((alien[rndEnemi].x + (alien[rndEnemi].width / 2)), (alien[rndEnemi].y + (alien[rndEnemi].height / 2)));
+			rndEntero = rndEnemi.int(0, 40);
+			trace(rndEntero);
+			bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)),-1);
 			shootEnemi = true;
 		}
 		if (shoot == true)
@@ -84,6 +86,11 @@ class PlayState extends FlxState
 			{
 				bullet.destroy();
 				shoot = false;
+			}
+			if (bulletEnemi.y > 140)
+			{
+				bulletEnemi.destroy();
+				shootEnemi = false;
 			}
 			else
 			{
