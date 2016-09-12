@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
+import flixel.math.FlxRandom;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
@@ -12,12 +13,15 @@ class PlayState extends FlxState
 {
 	private var player:FlxSprite;
 	private var bullet:FlxSprite;
+	private var bulletEnemi:FlxSprite;
 	private var escudo:EscudoMaker;
 	private var escudo2:EscudoMaker;
 	private var escudo3:EscudoMaker;
 	private var escudo4:EscudoMaker;
 	private var alien:Array<FlxSprite>;
 	private var shoot:Bool = false;
+	private var shootEnemi:Bool = false;
+	private var rndEnemi:FlxRandom;
 	private var colision = false;
 	private var enemyGroup:FlxGroup;
 	private var escudoGroup:FlxGroup;
@@ -67,7 +71,13 @@ class PlayState extends FlxState
 			add(bullet);
 			shoot = true;
 		}
-		
+		if (shootEnemi == false)
+		{
+			rndEnemi.int(0, 40);
+			trace("hola");
+			//bulletEnemi = new Bullet((alien[rndEnemi].x + (alien[rndEnemi].width / 2)), (alien[rndEnemi].y + (alien[rndEnemi].height / 2)));
+			shootEnemi = true;
+		}
 		if (shoot == true)
 		{
 			if (bullet.y < 0)
