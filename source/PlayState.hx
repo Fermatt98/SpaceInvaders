@@ -92,12 +92,13 @@ class PlayState extends FlxState
 				{
 					bullet_alien[rndEntero] = rndEntero;
 					trace(rndEntero);
-					bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
+		 			bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
 					add(bulletEnemi);
 					shootEnemi = true;    
 				}
 				else
 				{
+					trace("REPITE");
 					rndEntero = rndEnemi.int(0, alien.length);
 				}
 			}	
@@ -107,7 +108,7 @@ class PlayState extends FlxState
 			if (bulletEnemi.y > 140)
 			{
 				bulletEnemi.destroy();
-				shootEnemi = false;
+				//shootEnemi = false;
 			} 
 		}
 		if (shoot == true)
