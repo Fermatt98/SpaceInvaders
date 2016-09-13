@@ -19,6 +19,7 @@ class PlayState extends FlxState
 	private var escudo3:EscudoMaker;
 	private var escudo4:EscudoMaker;
 	private var alien:Array<FlxSprite>;
+	private var bullet_alien:Array<Int>;
 	private var shoot:Bool = false;
 	private var shootEnemi:Bool = false;
 	private var rndEnemi:FlxRandom;
@@ -29,24 +30,32 @@ class PlayState extends FlxState
 	private var escudoGroup3:FlxGroup;
 	private var escudoGroup4:FlxGroup;
 	private var rndEntero:Int;
+	private var imagen:Int;
 	
 	override public function create():Void
 	{
 		super.create();
 		player = new FlxSprite();
 		player.makeGraphic(16, 8);
+		player.loadGraphic("assets/img/gif/nave.png");
 		player.y = FlxG.height - player.height;
 		player.x = 80 - player.width / 2;
 		escudo = new EscudoMaker(24, 110);
 		escudo2 = new EscudoMaker(53, 110);
 		escudo3 = new EscudoMaker(82, 110);
 		escudo4 = new EscudoMaker(111, 110);
+		imagen = 0;
 		escudoGroup = escudo.getGroup();
 		escudoGroup2 = escudo2.getGroup();
 		escudoGroup3 = escudo3.getGroup();
 		escudoGroup4 = escudo4.getGroup();
 		add(player);
 		alien = new Array<FlxSprite>();
+		bullet_alien = new Array<Int>();
+		for (a in 0...alien.length)
+		{
+			bullet_alien[a] = -1;
+		}
 		enemyGroup = new FlxGroup();
 		rndEnemi = new FlxRandom();
 		AlienMaker();
@@ -75,10 +84,31 @@ class PlayState extends FlxState
 		}
 		if (shootEnemi == false)
 		{
-			rndEntero = rndEnemi.int(0, 40);
-			trace(rndEntero);
-			bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)),-1);
-			shootEnemi = true;
+			
+			rndEntero = rndEnemi.int(0, alien.length );
+			while(shootEnemi == false)
+			{
+				if(enemyGroup.members[rndEntero].exists)
+				{
+					bullet_alien[rndEntero] = rndEntero;
+					trace(rndEntero);
+					bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
+					add(bulletEnemi);
+					shootEnemi = true;    
+				}
+				else
+				{
+					rndEntero = rndEnemi.int(0, alien.length);
+				}
+			}	
+		}
+		if (shootEnemi == true)
+		{
+			if (bulletEnemi.y > 140)
+			{
+				bulletEnemi.destroy();
+				shootEnemi = false;
+			} 
 		}
 		if (shoot == true)
 		{
@@ -86,11 +116,6 @@ class PlayState extends FlxState
 			{
 				bullet.destroy();
 				shoot = false;
-			}
-			if (bulletEnemi.y > 140)
-			{
-				bulletEnemi.destroy();
-				shootEnemi = false;
 			}
 			else
 			{

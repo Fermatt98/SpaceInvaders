@@ -14,6 +14,7 @@ class Alien extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(8, 8);
+		loadGraphic("assets/img/gif/alien_2.png"); 
 		x = X;
 		y = Y;
 		velocity.x = 5;
