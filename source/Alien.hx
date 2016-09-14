@@ -16,7 +16,7 @@ class Alien extends FlxSprite
 		makeGraphic(8, 8);
 		if (a == 0)
 		{
-			loadGraphic("assets/img/gif/alien_1.png"); 
+			loadGraphic("assets/img/gif/alien_3.png"); 
 		}
 		if (a == 1 || a == 2)
 		{
@@ -24,7 +24,7 @@ class Alien extends FlxSprite
 		}
 		if (a == 3 || a == 4)
 		{
-			loadGraphic("assets/img/gif/alien_3.png"); 
+			loadGraphic("assets/img/gif/alien_1.png"); 
 		}
 		x = X;
 		y = Y;

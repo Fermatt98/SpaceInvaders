@@ -13,15 +13,15 @@ class PlayState extends FlxState
 {
 	private var player:FlxSprite;
 	private var bullet:FlxSprite;
-	private var bulletEnemi:FlxSprite;
+	private var bulletEnemy:FlxSprite;
 	private var escudo:EscudoMaker;
 	private var escudo2:EscudoMaker;
 	private var escudo3:EscudoMaker;
 	private var escudo4:EscudoMaker;
 	private var alien:Array<FlxSprite>;
 	private var shoot:Bool = false;
-	private var shootEnemi:Bool = false;
-	private var rndEnemi:FlxRandom;
+	private var shootEnemy:Bool = false;
+	private var rndEnemy:FlxRandom;
 	private var colision = false;
 	private var enemyGroup:FlxGroup;
 	private var escudoGroup:FlxGroup;
@@ -52,7 +52,7 @@ class PlayState extends FlxState
 		add(player);
 		alien = new Array<FlxSprite>();
 		enemyGroup = new FlxGroup();
-		rndEnemi = new FlxRandom();
+		rndEnemy = new FlxRandom();
 		AlienMaker();
 	}
 
@@ -77,38 +77,38 @@ class PlayState extends FlxState
 			add(bullet);
 			shoot = true;
 		}
-		if (shootEnemi == false)
+		if (shootEnemy == false)
 		{
 			
-			rndEntero = rndEnemi.int(0, alien.length - 1 );
-			while(shootEnemi == false)
+			rndEntero = rndEnemy.int(0, alien.length - 1 );
+			while(shootEnemy == false)
 			{
 				if(alien[rndEntero].exists)
 				{
 					trace(rndEntero);
-		 			bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
-					add(bulletEnemi);
-					shootEnemi = true;    
+		 			bulletEnemy = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
+					add(bulletEnemy);
+					shootEnemy = true;    
 				}
 				else
 				{
 					trace("REPITE");
-					rndEntero = rndEnemi.int(0, alien.length - 1);
+					rndEntero = rndEnemy.int(0, alien.length - 1);
 				}
 			}	
 		}
-		if (shootEnemi == true)
+		if (shootEnemy == true)
 		{
-			if (bulletEnemi.y > 140)
+			if (bulletEnemy.y > 140)
 			{
-				bulletEnemi.destroy(); 
-				shootEnemi = false;
+				bulletEnemy.destroy(); 
+				shootEnemy = false;
 			}
 			else
 			{
 				for(i in 0...escudoGroup.length)
 				{
-					if (FlxG.overlap(bulletEnemi, escudoGroup.members[i]))
+					if (FlxG.overlap(bulletEnemy, escudoGroup.members[i]))
 					{
 						destruido = escudo.vida(i);
 						trace(destruido);
@@ -117,13 +117,13 @@ class PlayState extends FlxState
 							escudoGroup.members[i].destroy();
 							escudoGroup.remove(escudoGroup.members[ i]);
 						}
-						bulletEnemi.destroy();
-						shootEnemi = false;
+						bulletEnemy.destroy();
+						shootEnemy = false;
 					}
 				}
 				for(i in 0...escudoGroup2.length)
 				{
-					if (FlxG.overlap(bulletEnemi, escudoGroup2.members[i]))
+					if (FlxG.overlap(bulletEnemy, escudoGroup2.members[i]))
 					{
 						destruido = escudo2.vida(i);
 						trace(destruido);
@@ -132,13 +132,13 @@ class PlayState extends FlxState
 							escudoGroup2.members[i].destroy();
 							escudoGroup2.remove(escudoGroup2.members[ i]);
 						}
-						bulletEnemi.destroy();
-						shootEnemi = false;
+						bulletEnemy.destroy();
+						shootEnemy= false;
 					}
 				}
 				for(i in 0...escudoGroup3.length)
 				{
-					if (FlxG.overlap(bulletEnemi, escudoGroup3.members[i]))
+					if (FlxG.overlap(bulletEnemy, escudoGroup3.members[i]))
 					{
 						destruido = escudo3.vida(i);
 						trace(destruido);
@@ -147,13 +147,13 @@ class PlayState extends FlxState
 							escudoGroup3.members[i].destroy();
 							escudoGroup3.remove(escudoGroup3.members[ i]);
 						}
-						bulletEnemi.destroy();
-						shootEnemi = false;
+						bulletEnemy.destroy();
+						shootEnemy = false;
 					}
 				}
 				for(i in 0...escudoGroup4.length)
 				{
-					if (FlxG.overlap(bulletEnemi, escudoGroup4.members[i]))
+					if (FlxG.overlap(bulletEnemy, escudoGroup4.members[i]))
 					{
 						destruido = escudo4 .vida(i);
 						trace(destruido);
@@ -162,8 +162,8 @@ class PlayState extends FlxState
 							escudoGroup4.members[i].destroy();
 							escudoGroup4.remove(escudoGroup4.members[ i]);
 						}
-						bulletEnemi.destroy();
-						shootEnemi = false;
+						bulletEnemy.destroy();
+						shootEnemy = false;
 					}
 				}
 			}
