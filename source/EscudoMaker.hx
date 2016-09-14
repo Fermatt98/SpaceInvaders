@@ -51,7 +51,7 @@ class EscudoMaker extends FlxSprite
 	}
 	public function vida(a:Int):String
 	{
-		b = cuadraditos[a].lastimado();
+		b = cuadraditos[a].lastimado(a);
 		if (b == 0)
 		{
 			return "muerto";

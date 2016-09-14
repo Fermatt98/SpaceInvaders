@@ -85,7 +85,6 @@ class PlayState extends FlxState
 			{
 				if(alien[rndEntero].exists)
 				{
-					//{bullet_alien[rndEntero] = rndEntero;
 					trace(rndEntero);
 		 			bulletEnemi = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
 					add(bulletEnemi);
@@ -126,8 +125,13 @@ class PlayState extends FlxState
 				{
 					if (FlxG.overlap(bulletEnemi, escudoGroup2.members[i]))
 					{
-						escudoGroup2.members[i].destroy();
-						escudoGroup2.remove(escudoGroup2.members[ i]);
+						destruido = escudo2.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup2.members[i].destroy();
+							escudoGroup2.remove(escudoGroup2.members[ i]);
+						}
 						bulletEnemi.destroy();
 						shootEnemi = false;
 					}
@@ -136,8 +140,13 @@ class PlayState extends FlxState
 				{
 					if (FlxG.overlap(bulletEnemi, escudoGroup3.members[i]))
 					{
-						escudoGroup3.members[i].destroy();
-						escudoGroup3.remove(escudoGroup3.members[ i]);
+						destruido = escudo3.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup3.members[i].destroy();
+							escudoGroup3.remove(escudoGroup3.members[ i]);
+						}
 						bulletEnemi.destroy();
 						shootEnemi = false;
 					}
@@ -146,8 +155,13 @@ class PlayState extends FlxState
 				{
 					if (FlxG.overlap(bulletEnemi, escudoGroup4.members[i]))
 					{
-						escudoGroup4.members[i].destroy();
-						escudoGroup4.remove(escudoGroup4.members[ i]);
+						destruido = escudo4 .vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup4.members[i].destroy();
+							escudoGroup4.remove(escudoGroup4.members[ i]);
+						}
 						bulletEnemi.destroy();
 						shootEnemi = false;
 					}
@@ -176,8 +190,13 @@ class PlayState extends FlxState
 				{
 					if (FlxG.overlap(bullet, escudoGroup.members[i]))
 					{
-						escudoGroup.members[i].destroy();
-						escudoGroup.remove(escudoGroup.members[ i]);
+						destruido = escudo.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup.members[i].destroy();
+							escudoGroup.remove(escudoGroup.members[ i]);
+						}
 						bullet.destroy();
 						shoot = false;
 					}
@@ -186,8 +205,13 @@ class PlayState extends FlxState
 				{
 					if (FlxG.overlap(bullet, escudoGroup2.members[i]))
 					{
-						escudoGroup2.members[i].destroy();
-						escudoGroup2.remove(escudoGroup2.members[ i]);
+						destruido = escudo2.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup2.members[i].destroy();
+							escudoGroup2.remove(escudoGroup2.members[ i]);
+						}
 						bullet.destroy();
 						shoot = false;
 					}
@@ -196,18 +220,28 @@ class PlayState extends FlxState
 				{
 					if (FlxG.overlap(bullet, escudoGroup3.members[i]))
 					{
-						escudoGroup3.members[i].destroy();
-						escudoGroup3.remove(escudoGroup3.members[ i]);
+						destruido = escudo3.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup3.members[i].destroy();
+							escudoGroup3.remove(escudoGroup3.members[ i]);
+						}
 						bullet.destroy();
 						shoot = false;
 					}
 				}
-				for(i in 0...escudoGroup4.length)
+				for(i in 0...escudoGroup4.length )
 				{
 					if (FlxG.overlap(bullet, escudoGroup4.members[i]))
 					{
-						escudoGroup4.members[i].destroy();
-						escudoGroup4.remove(escudoGroup4.members[ i]);
+						destruido = escudo4.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup4.members[i].destroy();
+							escudoGroup4 .remove(escudoGroup4.members[ i]);
+						}
 						bullet.destroy();
 						shoot = false;
 					}
@@ -235,7 +269,7 @@ class PlayState extends FlxState
 		{
 			for (k in 0...8)
 			{
-				alien.push(new Alien((16 * k) + 20, (8 * i) + 24));
+				alien.push(new Alien((16 * k) + 20, (8 * i) + 24, i));
 				enemyGroup.add(alien[i * 8 + k]);
 				add(alien[i*8+k]);
 			}

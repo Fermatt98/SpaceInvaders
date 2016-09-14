@@ -9,7 +9,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Escudo extends FlxSprite
 {
-	private var vida = 2;
+	private var vida = 4;
 
 	public function new(?X:Float=0, ?Y:Float=0, ?n_img:Int, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -27,9 +27,76 @@ class Escudo extends FlxSprite
 			case 7:loadGraphic("assets/img/gif/escudo_8.png");
 		}
 	}
-	public function lastimado():Int
+	public function lastimado(a:Int):Int
 	{
 		vida = vida - 1;
+		switch(a)
+		{
+			case 0:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_1_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_1_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_1_2.png");
+					//default:;
+				}
+			case 1:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_2_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_2_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_2_2.png");
+					//default:;
+				}
+			case 2:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_2_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_2_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_2_2.png");
+					//default:;
+				}
+			case 3:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_4_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_4_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_4_2.png");
+					//default:;
+				}
+			case 4:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_2_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_2_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_2_2.png");
+					//default:;
+				}
+			case 5:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_6_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_6_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_6_2.png");
+					//default:;
+				}
+			case 6:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_7_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_7_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_7_2.png");
+					//default:;
+				}
+			case 7:
+				switch(vida)
+				{
+					case 1:loadGraphic("assets/img/gif/escudo_2_4.png");
+					case 2:loadGraphic("assets/img/gif/escudo_2_3.png");
+					case 3:loadGraphic("assets/img/gif/escudo_2_2.png");
+					//default:;
+				}
+		}	
 		return vida;
 	}
 	
