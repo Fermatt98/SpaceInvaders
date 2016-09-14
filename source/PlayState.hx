@@ -192,11 +192,11 @@ class PlayState extends FlxState
 							{
 								if (alien[i].velocity.x < 0)
 								{
-									alien[i].velocity.x = (5 + killCounter)*-1;
+									alien[i].velocity.x = (5 + (killCounter / 2))*-1;
 								}
 								else
 								{
-									alien[i].velocity.x = 5 + killCounter;
+									alien[i].velocity.x = 5 + (killCounter / 2);
 								}
 							}
 						}
