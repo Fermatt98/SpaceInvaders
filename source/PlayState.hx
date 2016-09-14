@@ -31,6 +31,7 @@ class PlayState extends FlxState
 	private var rndEntero:Int;
 	private var imagen:Int;
 	private var destruido:String;
+	private var killCounter:Int = 0;
 	
 	override public function create():Void
 	{
@@ -182,8 +183,23 @@ class PlayState extends FlxState
 					if (FlxG.overlap(bullet, enemyGroup.members[i]))
 					{
 						enemyGroup.members[i].kill();
+						killCounter += 1;
 						bullet.destroy();
 						shoot = false;
+						for (i in 0...alien.length)
+						{
+							if (alien[i].exists)
+							{
+								if (alien[i].velocity.x < 0)
+								{
+									alien[i].velocity.x = (5 + killCounter)*-1;
+								}
+								else
+								{
+									alien[i].velocity.x = 5 + killCounter;
+								}
+							}
+						}
 					}
 				}
 				for(i in 0...escudoGroup.length)
