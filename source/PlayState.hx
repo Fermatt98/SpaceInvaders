@@ -12,6 +12,7 @@ import flixel.math.FlxMath;
 class PlayState extends FlxState
 {
 	private var player:FlxSprite;
+	private var scoreText:Score;
 	private var bullet:FlxSprite;
 	private var bulletEnemy:FlxSprite;
 	private var escudo:EscudoMaker;
@@ -42,6 +43,7 @@ class PlayState extends FlxState
 		player.loadGraphic("assets/img/gif/nave.png");
 		player.y = FlxG.height - player.height;
 		player.x = 80 - player.width / 2;
+		scoreText = new Score();
 		escudo = new EscudoMaker(24, 110);
 		escudo2 = new EscudoMaker(53, 110);
 		escudo3 = new EscudoMaker(82, 110);
@@ -52,6 +54,7 @@ class PlayState extends FlxState
 		escudoGroup3 = escudo3.getGroup();
 		escudoGroup4 = escudo4.getGroup();
 		add(player);
+		add(scoreText);
 		alien = new Array<FlxSprite>();
 		enemyGroup = new FlxGroup();
 		rndEnemy = new FlxRandom();
@@ -184,6 +187,7 @@ class PlayState extends FlxState
 					if (FlxG.overlap(bullet, enemyGroup.members[i]))
 					{
 						enemyGroup.members[i].kill();
+						scoreText.addScore(Reg.puntosEnemigo);
 						killCounter += 1;
 						bullet.destroy();
 						shoot = false;
