@@ -271,56 +271,40 @@ class PlayState extends FlxState
 		}
 		// colicion aliens con escudo//
 		// --------------------------//
-		for (a in 0...alien.length)
+		for (i in 0...alien.length)
 		{
-			if (alien[a].y > 90)
+			if (alien[i].y > 100)
 			{
-				colicionMuros = true;
-			}
-		}
-		if (colicionMuros == true)
-		{
-			for(i in 0...escudoGroup.length )
-			{
-				for (k in 0...enemyGroup.length)
+				for (k in 0...escudoGroup.length)
 				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup.members[i]))
+					if (FlxG.overlap(alien[i], escudoGroup.members[k]))
 					{
-						escudoGroup.members[i].destroy();
-						escudoGroup.remove(escudoGroup.members[ i]);						
+						escudoGroup.members[k].kill();
+						escudoGroup.remove(escudoGroup.members[k]);
 					}
 				}
-			}
-			for(i in 0...escudoGroup2.length )
-			{
-				for (k in 0...enemyGroup.length)
+				for (k in 0...escudoGroup2.length)
 				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup2.members[i]))
+					if (FlxG.overlap(alien[i], escudoGroup2.members[k]))
 					{
-						escudoGroup2.members[i].destroy();
-						escudoGroup2.remove(escudoGroup2.members[ i]);						
+						escudoGroup2.members[k].kill();
+						escudoGroup2.remove(escudoGroup2.members[k]);
 					}
 				}
-			}
-			for(i in 0...escudoGroup3.length )
-			{
-				for (k in 0...enemyGroup.length)
+				for (k in 0...escudoGroup3.length)
 				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup3.members[i]))
+					if (FlxG.overlap(alien[i], escudoGroup3.members[k]))
 					{
-						escudoGroup3.members[i].destroy();
-						escudoGroup3.remove(escudoGroup3.members[ i]);						
+						escudoGroup3.members[k].kill();
+						escudoGroup3.remove(escudoGroup3.members[k]);
 					}
 				}
-			}
-			for(i in 0...escudoGroup4.length )
-			{
-				for (k in 0...enemyGroup.length)
+				for (k in 0...escudoGroup.length)
 				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup4.members[i]))
+					if (FlxG.overlap(alien[i], escudoGroup4.members[k]))
 					{
-						escudoGroup4.members[i].destroy();
-						escudoGroup4.remove(escudoGroup4.members[ i]);						
+						escudoGroup4.members[k].kill();
+						escudoGroup4.remove(escudoGroup4.members[k]);
 					}
 				}
 			}
