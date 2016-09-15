@@ -106,7 +106,7 @@ class PlayState extends FlxState
 		{
 			if (bulletEnemy.y > 140)
 			{
-				bulletEnemy.destroy(); 
+				bulletEnemy.destroy();
 				shootEnemy = false;
 			}
 			else
@@ -187,7 +187,9 @@ class PlayState extends FlxState
 					if (FlxG.overlap(bullet, enemyGroup.members[i]))
 					{
 						enemyGroup.members[i].kill();
-						scoreText.addScore(Reg.puntosEnemigo);
+						if (i <= 7) scoreText.addScore(Reg.puntosEnemigo3);
+						if (i >= 8 && i <= 23) scoreText.addScore(Reg.puntosEnemigo2);
+						if( i >=24 && i <= enemyGroup.length) scoreText.addScore(Reg.puntosEnemigo1);
 						killCounter += 1;
 						bullet.destroy();
 						shoot = false;
