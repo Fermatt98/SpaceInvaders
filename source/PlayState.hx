@@ -21,7 +21,6 @@ class PlayState extends FlxState
 	private var alien:Array<FlxSprite>;
 	private var shoot:Bool = false;
 	private var shootEnemy:Bool = false;
-	private var colicionMuros:Bool = false;
 	private var rndEnemy:FlxRandom;
 	private var colision = false;
 	private var enemyGroup:FlxGroup;
@@ -265,65 +264,6 @@ class PlayState extends FlxState
 				}
 			}
 		}
-		// colicion aliens con escudo//
-		// --------------------------//
-		for (a in 0...alien.length)
-		{
-			if (alien[a].y > 90)
-			{
-				colicionMuros = true;
-			}
-		}
-		if (colicionMuros == true)
-		{
-			for(i in 0...escudoGroup.length )
-			{
-				for (k in 0...enemyGroup.length)
-				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup.members[i]))
-					{
-						escudoGroup.members[i].destroy();
-						escudoGroup.remove(escudoGroup.members[ i]);						
-					}
-				}
-			}
-			for(i in 0...escudoGroup2.length )
-			{
-				for (k in 0...enemyGroup.length)
-				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup2.members[i]))
-					{
-						escudoGroup2.members[i].destroy();
-						escudoGroup2.remove(escudoGroup2.members[ i]);						
-					}
-				}
-			}
-			for(i in 0...escudoGroup3.length )
-			{
-				for (k in 0...enemyGroup.length)
-				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup3.members[i]))
-					{
-						escudoGroup3.members[i].destroy();
-						escudoGroup3.remove(escudoGroup3.members[ i]);						
-					}
-				}
-			}
-			for(i in 0...escudoGroup4.length )
-			{
-				for (k in 0...enemyGroup.length)
-				{
-					if (FlxG.overlap(enemyGroup.members[k], escudoGroup4.members[i]))
-					{
-						escudoGroup4.members[i].destroy();
-						escudoGroup4.remove(escudoGroup4.members[ i]);						
-					}
-				}
-			}
-		}
-		
-		// --------------------------//
-		// fin colicion aliens//
 		for (i in 0...alien.length)
 		{
 			if ((alien[i].x < 0 || alien[i].x > 160 - alien[i].width) && colision == false)
