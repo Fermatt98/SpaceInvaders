@@ -29,5 +29,5 @@ class Alien extends FlxSprite
 		y = Y;
 		velocity.x = 5;
 	}
-	public function getType():Int return type;
+	//public function getType():Int return type;
 }

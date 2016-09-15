@@ -34,6 +34,7 @@ class PlayState extends FlxState
 	private var imagen:Int;
 	private var destruido:String;
 	private var killCounter:Int = 0;
+	private var timer:Float = 0;
 	
 	override public function create():Void
 	{
@@ -64,6 +65,7 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		timer += elapsed;
 		if (FlxG.keys.pressed.LEFT && player.x > 0)
 		{
 			player.velocity.x = -Reg.velPlayer;
@@ -82,25 +84,29 @@ class PlayState extends FlxState
 			add(bullet);
 			shoot = true;
 		}
-		if (shootEnemy == false)
+		if (timer >= Reg.enemyShootTime)
 		{
-			
-			rndEntero = rndEnemy.int(0, alien.length - 1 );
-			while(shootEnemy == false)
+			if (shootEnemy == false)
 			{
-				if(alien[rndEntero].exists)
+				
+				rndEntero = rndEnemy.int(0, alien.length - 1 );
+				while(shootEnemy == false)
 				{
-					trace(rndEntero);
-		 			bulletEnemy = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
-					add(bulletEnemy);
-					shootEnemy = true;    
-				}
-				else
-				{
-					trace("REPITE");
-					rndEntero = rndEnemy.int(0, alien.length - 1);
-				}
-			}	
+					if(alien[rndEntero].exists)
+					{
+						trace(rndEntero);
+						bulletEnemy = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
+						add(bulletEnemy);
+						shootEnemy = true;    
+					}
+					else
+					{
+						trace("REPITE");
+						rndEntero = rndEnemy.int(0, alien.length - 1);
+					}
+				}	
+			}
+			timer = 0;
 		}
 		if (shootEnemy == true)
 		{
