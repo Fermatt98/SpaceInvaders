@@ -17,7 +17,14 @@ class Bullet extends FlxSprite
 		loadGraphic("assets/img/gif/disparo.png");
 		x = X - (width / 2);
 		y = Y - (height / 2);
-		velocity.y = -200 * direccion;
+		if (direccion == 1)
+		{
+			velocity.y = -200 * direccion;
+		}
+		else
+		{
+			velocity.y = -100 * direccion;
+		}
 		if (direccion == -1)
 		{
 			loadGraphic("assets/img/gif/disparo_alien.png");

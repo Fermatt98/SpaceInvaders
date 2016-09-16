@@ -15,6 +15,7 @@ class PlayState extends FlxState
 	private var scoreText:Score;
 	private var bullet:FlxSprite;
 	private var bulletEnemy:FlxSprite;
+	private var bulletEnemy2:FlxSprite;
 	private var escudo:EscudoMaker;
 	private var escudo2:EscudoMaker;
 	private var escudo3:EscudoMaker;
@@ -22,6 +23,7 @@ class PlayState extends FlxState
 	private var alien:Array<FlxSprite>;
 	private var shoot:Bool = false;
 	private var shootEnemy:Bool = false;
+	private var shootEnemy2:Bool = false;
 	private var colicionMuros:Bool = false;
 	private var rndEnemy:FlxRandom;
 	private var colision = false;
@@ -36,10 +38,13 @@ class PlayState extends FlxState
 	private var killCounter:Int = 0;
 	private var enemyShootTimer:Float = 0;
 	private var ovniTimer:Float = 0;
+	private var animacionTimer:Float = 0;
 	private var ovni:FlxSprite;
 	private var ovniExists:Bool = false;
 	private var ovniShoot:Bool = false;
 	private var bulletOvni:FlxSprite;
+	private var disparo2:Int;
+
 	
 	
 	override public function create():Void
@@ -75,7 +80,7 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		enemyShootTimer += elapsed;
 		ovniTimer += elapsed;
-		trace(ovniTimer);
+		animacionTimer += elapsed;
 		if (FlxG.keys.pressed.LEFT && player.x > 0)
 		{
 			player.velocity.x = -Reg.velPlayer;
@@ -116,6 +121,16 @@ class PlayState extends FlxState
 			}
 			
 		}
+		// ----- ANIMACION -----//
+		if (animacionTimer >= Reg.animacionControlTime)
+		{
+			for (a in 0...alien.length - 1)
+			{
+				alien[a].animar();
+			}
+			animacionTimer = 0;
+		}
+		//----------------------//
 		if (enemyShootTimer >= Reg.enemyShootTime)
 		{
 			if (shootEnemy == false)
@@ -126,8 +141,22 @@ class PlayState extends FlxState
 				{
 					if(alien[rndEntero].exists)
 					{
-						trace(rndEntero);
 						bulletEnemy = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
+						disparo2 = rndEntero;
+						while (shootEnemy2 == false && alien.length > 2)
+						{
+							rndEntero = rndEnemy.int(0, alien.length - 1 );
+							if (alien[rndEntero].exists && disparo2 != rndEntero)
+							{
+								bulletEnemy2 = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
+							}
+							else
+							{
+								rndEntero = rndEnemy.int(0, alien.length - 1);
+							}
+							add(bulletEnemy2);
+							shootEnemy2 = true;
+						}
 						add(bulletEnemy);
 						shootEnemy = true;
 					}
@@ -282,6 +311,77 @@ class PlayState extends FlxState
 				}
 			}
 		}
+		if (shootEnemy2 == true)
+		{
+			if (bulletEnemy2.y > 140)
+			{
+				bulletEnemy2.destroy();
+				shootEnemy2 = false;
+			}
+			else
+			{
+				for(i in 0...escudoGroup.length)
+				{
+					if (FlxG.overlap(bulletEnemy2, escudoGroup.members[i]))
+					{
+						destruido = escudo.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup.members[i].destroy();
+							escudoGroup.remove(escudoGroup.members[ i]);
+						}
+						bulletEnemy2.destroy();
+						shootEnemy2 = false;
+					}
+				}
+				for(i in 0...escudoGroup2.length)
+				{
+					if (FlxG.overlap(bulletEnemy2, escudoGroup2.members[i]))
+					{
+						destruido = escudo2.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup2.members[i].destroy();
+							escudoGroup2.remove(escudoGroup2.members[ i]);
+						}
+						bulletEnemy2.destroy();
+						shootEnemy2= false;
+					}
+				}
+				for(i in 0...escudoGroup3.length)
+				{
+					if (FlxG.overlap(bulletEnemy2, escudoGroup3.members[i]))
+					{
+						destruido = escudo3.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup3.members[i].destroy();
+							escudoGroup3.remove(escudoGroup3.members[ i]);
+						}
+						bulletEnemy2.destroy();
+						shootEnemy2 = false;
+					}
+				}
+				for(i in 0...escudoGroup4.length)
+				{
+					if (FlxG.overlap(bulletEnemy2, escudoGroup4.members[i]))
+					{
+						destruido = escudo4 .vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup4.members[i].destroy();
+							escudoGroup4.remove(escudoGroup4.members[ i]);
+						}
+						bulletEnemy2.destroy();
+						shootEnemy2 = false;
+					}
+				}
+			}
+		}
 		if (shoot == true)
 		{
 			if (bullet.y < 0)
@@ -388,6 +488,7 @@ class PlayState extends FlxState
 				}
 			}
 		}
+		
 		// colicion aliens con escudo//
 		// --------------------------//
 		for (i in 0...alien.length)
