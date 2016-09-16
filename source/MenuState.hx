@@ -10,7 +10,7 @@ import flixel.math.FlxMath;
 class MenuState extends FlxState
 {
 	private var menu:FlxSprite;
-	private var time:Float;
+	private var time:Float=0;
 	override public function create():Void
 	{
 		super.create();
@@ -23,7 +23,7 @@ class MenuState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		time = time + elapsed;
+		time += elapsed;
 		trace(time);
 		if (time >= 9)
 		{

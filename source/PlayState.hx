@@ -75,7 +75,7 @@ class PlayState extends FlxState
 		rndEnemy = new FlxRandom();
 		AlienMaker();
 		gamemode = 1;
-		//FlxG.camera.bgColor = 0xff9cbd0f;
+		FlxG.camera.bgColor = 0xff0f380f;
 		
 	}
 
