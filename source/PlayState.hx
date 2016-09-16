@@ -38,6 +38,8 @@ class PlayState extends FlxState
 	private var ovniTimer:Float = 0;
 	private var ovni:FlxSprite;
 	private var ovniExists:Bool = false;
+	private var ovniShoot:Bool = false;
+	private var bulletOvni:FlxSprite;
 	
 	
 	override public function create():Void
@@ -64,7 +66,7 @@ class PlayState extends FlxState
 		enemyGroup = new FlxGroup();
 		rndEnemy = new FlxRandom();
 		AlienMaker();
-		FlxG.camera.bgColor = 0xff9cbd0f;
+		//FlxG.camera.bgColor = 0xff9cbd0f;
 		
 	}
 
@@ -105,6 +107,13 @@ class PlayState extends FlxState
 				ovni.destroy();
 				ovniExists = false;
 			}
+			if (ovniShoot == false)
+			{
+				bulletOvni = new Bullet(ovni.x + ovni.width / 2, ovni.y + ovni.height / 2, -1);
+				add(bulletOvni);
+				ovniShoot = true;
+			}
+			
 		}
 		if (enemyShootTimer >= Reg.enemyShootTime)
 		{
@@ -129,6 +138,77 @@ class PlayState extends FlxState
 				}	
 			}
 			enemyShootTimer = 0;
+		}
+		if (ovniShoot == true)
+		{
+			if (bulletOvni.y > 140)
+			{
+				bulletOvni.destroy();
+				ovniShoot = false;
+			}
+			else
+			{
+				for(i in 0...escudoGroup.length)
+				{
+					if (FlxG.overlap(bulletOvni, escudoGroup.members[i]))
+					{
+						destruido = escudo.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup.members[i].destroy();
+							escudoGroup.remove(escudoGroup.members[ i]);
+						}
+						bulletOvni.destroy();
+						ovniShoot = false;
+					}
+				}
+				for(i in 0...escudoGroup2.length)
+				{
+					if (FlxG.overlap(bulletOvni, escudoGroup2.members[i]))
+					{
+						destruido = escudo2.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup2.members[i].destroy();
+							escudoGroup2.remove(escudoGroup2.members[ i]);
+						}
+						bulletOvni.destroy();
+						ovniShoot = false;
+					}
+				}
+				for(i in 0...escudoGroup3.length)
+				{
+					if (FlxG.overlap(bulletOvni, escudoGroup3.members[i]))
+					{
+						destruido = escudo3.vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup3.members[i].destroy();
+							escudoGroup3.remove(escudoGroup3.members[ i]);
+						}
+						bulletOvni.destroy();
+						ovniShoot = false;
+					}
+				}
+				for(i in 0...escudoGroup4.length)
+				{
+					if (FlxG.overlap(bulletOvni, escudoGroup4.members[i]))
+					{
+						destruido = escudo4 .vida(i);
+						trace(destruido);
+						if (destruido == "muerto")
+						{
+							escudoGroup4.members[i].destroy();
+							escudoGroup4.remove(escudoGroup4.members[ i]);
+						}
+						bulletOvni.destroy();
+						ovniShoot = false;
+					}
+				}
+			}
 		}
 		if (shootEnemy == true)
 		{
@@ -208,6 +288,14 @@ class PlayState extends FlxState
 				bullet.destroy();
 				shoot = false;
 			}
+			else if (FlxG.overlap(bullet, ovni))
+			{
+				ovni.destroy();
+				ovniExists = false;
+				scoreText.addScore(Reg.puntosOvni);
+				shoot = false;
+				bullet.destroy();
+			}
 			else
 			{
 				for (i in 0...enemyGroup.length)
@@ -217,7 +305,7 @@ class PlayState extends FlxState
 						enemyGroup.members[i].kill();
 						if (i <= 7) scoreText.addScore(Reg.puntosEnemigo3);
 						if (i >= 8 && i <= 23) scoreText.addScore(Reg.puntosEnemigo2);
-						if( i >=24 && i <= enemyGroup.length) scoreText.addScore(Reg.puntosEnemigo1);
+						if ( i >= 24 && i <= enemyGroup.length) scoreText.addScore(Reg.puntosEnemigo1);
 						killCounter += 1;
 						bullet.destroy();
 						shoot = false;
