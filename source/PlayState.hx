@@ -122,6 +122,7 @@ class PlayState extends FlxState
 			
 		}
 		// ----- ANIMACION -----//
+		/*
 		if (animacionTimer >= Reg.animacionControlTime)
 		{
 			for (a in 0...alien.length - 1)
@@ -130,6 +131,7 @@ class PlayState extends FlxState
 			}
 			animacionTimer = 0;
 		}
+		*/
 		//----------------------//
 		if (enemyShootTimer >= Reg.enemyShootTime)
 		{

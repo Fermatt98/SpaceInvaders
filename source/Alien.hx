@@ -11,6 +11,9 @@ class Alien extends FlxSprite
 {
 	private var _atuendo:Int;
 	private var _cambio:Int = 0;
+	private var animacionTimer:Float = 0;
+	
+	
 	public function new(?X:Float=0, ?Y:Float=0,?a:Int, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
@@ -34,6 +37,57 @@ class Alien extends FlxSprite
 		y = Y;
 		velocity.x = 5;
 	}
+	override public function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+		animacionTimer += elapsed;
+		if (animacionTimer >= Reg.animacionControlTime)
+		{
+			if (_atuendo == 0)
+			{
+				if (_cambio == 0)
+				{
+					loadGraphic("assets/img/gif/alien_3_3.png");
+					_cambio = 1;
+				}
+				else
+				{
+					loadGraphic("assets/img/gif/alien_3.png");
+					_cambio = 0;
+				}
+			}
+			if (_atuendo == 1 || _atuendo == 2)
+			{
+				if (_cambio == 0)
+				{
+					loadGraphic("assets/img/gif/alien_2_2.png");
+					_cambio = 1;
+				}
+				else
+				{
+					loadGraphic("assets/img/gif/alien_2.png");
+					_cambio = 0;
+				}
+			}
+			if (_atuendo == 3 || _atuendo == 4)
+			{
+				if (_cambio == 0)
+				{
+					loadGraphic("assets/img/gif/alien_1_2.png");
+					_cambio = 1;
+				}
+				else
+				{
+					loadGraphic("assets/img/gif/alien_1.png");
+					_cambio = 0;
+				}
+			}
+			animacionTimer = 0;
+		}
+	}
+	
+	/*
+	
 	public function animar():Void
 	{
 		if (_atuendo == 0)
@@ -70,4 +124,5 @@ class Alien extends FlxSprite
 			}
 		}
 	}
+	*/
 }
