@@ -14,4 +14,5 @@ class Reg
 		inline static public var puntosEnemigo3:Int = 300;
 		inline static public var puntosOvni:Int = 1000;
 		inline static public var enemyShootTime:Int = 2;
+		inline static public var ovniTime:Int = 15;
 }

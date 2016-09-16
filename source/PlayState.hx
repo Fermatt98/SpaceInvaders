@@ -34,7 +34,11 @@ class PlayState extends FlxState
 	private var imagen:Int;
 	private var destruido:String;
 	private var killCounter:Int = 0;
-	private var timer:Float = 0;
+	private var enemyShootTimer:Float = 0;
+	private var ovniTimer:Float = 0;
+	private var ovni:FlxSprite;
+	private var ovniExists:Bool = false;
+	
 	
 	override public function create():Void
 	{
@@ -60,12 +64,15 @@ class PlayState extends FlxState
 		enemyGroup = new FlxGroup();
 		rndEnemy = new FlxRandom();
 		AlienMaker();
+		FlxG.camera.bgColor = 0xff9cbd0f;
+		
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		timer += elapsed;
+		enemyShootTimer += elapsed;
+		ovniTimer += elapsed;
 		if (FlxG.keys.pressed.LEFT && player.x > 0)
 		{
 			player.velocity.x = -Reg.velPlayer;
@@ -84,7 +91,22 @@ class PlayState extends FlxState
 			add(bullet);
 			shoot = true;
 		}
-		if (timer >= Reg.enemyShootTime)
+		if (ovniTimer >= Reg.ovniTime)
+		{
+			ovni = new Ovni();
+			add(ovni);
+			ovniExists = true;
+			ovniTimer = 0;
+		}
+		if (ovniExists == true)
+		{
+			if (ovni.x < 0)
+			{
+				ovni.destroy();
+				ovniExists = false;
+			}
+		}
+		if (enemyShootTimer >= Reg.enemyShootTime)
 		{
 			if (shootEnemy == false)
 			{
@@ -97,7 +119,7 @@ class PlayState extends FlxState
 						trace(rndEntero);
 						bulletEnemy = new Bullet((alien[rndEntero].x + (alien[rndEntero].width / 2)), (alien[rndEntero].y + (alien[rndEntero].height / 2)), -1);
 						add(bulletEnemy);
-						shootEnemy = true;    
+						shootEnemy = true;
 					}
 					else
 					{
@@ -106,7 +128,7 @@ class PlayState extends FlxState
 					}
 				}	
 			}
-			timer = 0;
+			enemyShootTimer = 0;
 		}
 		if (shootEnemy == true)
 		{

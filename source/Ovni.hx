@@ -10,10 +10,11 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class Ovni extends FlxSprite
 {
 
-	public function new(?X:Float=160, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(?X:Float=160, ?Y:Float=10, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(16, 8);
+		loadGraphic("assets/img/gif/ovni.png");
 		velocity.x = -40;
 	}
 }

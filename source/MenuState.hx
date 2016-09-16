@@ -17,6 +17,8 @@ class MenuState extends FlxState
 		menu.makeGraphic(160, 144);
 		menu.loadGraphic("assets/img/gif/menu.png");
 		add(menu);
+		FlxG.camera.bgColor = 0xFF666666;
+
 	}
 
 	override public function update(elapsed:Float):Void
