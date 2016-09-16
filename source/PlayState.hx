@@ -75,6 +75,7 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		enemyShootTimer += elapsed;
 		ovniTimer += elapsed;
+		trace(ovniTimer);
 		if (FlxG.keys.pressed.LEFT && player.x > 0)
 		{
 			player.velocity.x = -Reg.velPlayer;
