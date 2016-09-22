@@ -28,7 +28,6 @@ class Bullet extends FlxSprite
 		if (direccion == -1)
 		{
 			loadGraphic("assets/img/gif/disparo_alien.png");
-			trace("DISPARO ALIEN");
 		}
 	}
 }

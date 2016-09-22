@@ -55,10 +55,11 @@ class PlayState extends FlxState
 	private var ovniSpawnSfx:FlxSound;
 	private var ovniUnspawnSfx:FlxSound;
 	private var youWin:FlxSound;
+	private var explosionPlayer:FlxSound;
 	private var vidas:VidaMaker;
 	private var vidasGroup:FlxGroup;
 	private var youLose:FlxSound;
-	private var deadTime:Float = 0;
+	private var deadTime:Float = 10;
 	private var deadTimeControl:Float = 0.2;
 	private var bulletDead:Bool = false;
 	private var bulletDead2:Bool = false;
@@ -76,10 +77,10 @@ class PlayState extends FlxState
 		player.y = FlxG.height - player.height;
 		player.x = 80 - player.width / 2;
 		scoreText = new Score();
-		escudo = new EscudoMaker(24, 110);
-		escudo2 = new EscudoMaker(53, 110);
-		escudo3 = new EscudoMaker(82, 110);
-		escudo4 = new EscudoMaker(111, 110);
+		escudo = new EscudoMaker(16, 110);
+		escudo2 = new EscudoMaker(51, 110);
+		escudo3 = new EscudoMaker(85, 110);
+		escudo4 = new EscudoMaker(120, 110);
 		vidas = new VidaMaker(100, 3);
 		imagen = 0;
 		escudoGroup = escudo.getGroup();
@@ -99,6 +100,7 @@ class PlayState extends FlxState
 		FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);
 		bulletSfx = FlxG.sound.load("assets/sounds/Bullet.wav");
 		explosionAlien = FlxG.sound.load("assets/sounds/Explosion_Alien.wav");
+		explosionPlayer = FlxG.sound.load("assets/sounds/Explosion_Player.wav");
 		ovniSpawnSfx = FlxG.sound.load("assets/music/Ovni_Spawn.wav");
 		ovniUnspawnSfx = FlxG.sound.load("assets/music/Ovni_Unspawn.wav");
 		youWin = FlxG.sound.load("assets/music/youWin.wav");
@@ -194,7 +196,6 @@ class PlayState extends FlxState
 						}
 						else
 						{
-							trace("REPITE");
 							rndEntero = rndEnemy.int(0, alien.length - 1);
 						}
 					}	
@@ -215,7 +216,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletOvni, escudoGroup.members[i]))
 						{
 							destruido = escudo.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup.members[i].destroy();
@@ -230,7 +230,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletOvni, escudoGroup2.members[i]))
 						{
 							destruido = escudo2.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup2.members[i].destroy();
@@ -245,7 +244,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletOvni, escudoGroup3.members[i]))
 						{
 							destruido = escudo3.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup3.members[i].destroy();
@@ -260,7 +258,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletOvni, escudoGroup4.members[i]))
 						{
 							destruido = escudo4 .vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup4.members[i].destroy();
@@ -295,7 +292,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy, escudoGroup.members[i]))
 						{
 							destruido = escudo.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup.members[i].destroy();
@@ -310,7 +306,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy, escudoGroup2.members[i]))
 						{
 							destruido = escudo2.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup2.members[i].destroy();
@@ -325,7 +320,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy, escudoGroup3.members[i]))
 						{
 							destruido = escudo3.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup3.members[i].destroy();
@@ -339,8 +333,7 @@ class PlayState extends FlxState
 					{
 						if (FlxG.overlap(bulletEnemy, escudoGroup4.members[i]))
 						{
-							destruido = escudo4 .vida(i);
-							trace(destruido);
+							destruido = escudo4.vida(i);
 							if (destruido == "muerto")
 							{
 								escudoGroup4.members[i].destroy();
@@ -375,7 +368,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy2, escudoGroup.members[i]))
 						{
 							destruido = escudo.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup.members[i].destroy();
@@ -390,7 +382,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy2, escudoGroup2.members[i]))
 						{
 							destruido = escudo2.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup2.members[i].destroy();
@@ -405,7 +396,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy2, escudoGroup3.members[i]))
 						{
 							destruido = escudo3.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup3.members[i].destroy();
@@ -420,7 +410,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bulletEnemy2, escudoGroup4.members[i]))
 						{
 							destruido = escudo4 .vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup4.members[i].destroy();
@@ -457,6 +446,7 @@ class PlayState extends FlxState
 					bullet.kill();
 					FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);
 					ovniUnspawnSfx.play();
+					explosionAlien.play();
 				}
 				else
 				{
@@ -493,7 +483,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bullet, escudoGroup.members[i]))
 						{
 							destruido = escudo.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup.members[i].destroy();
@@ -508,7 +497,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bullet, escudoGroup2.members[i]))
 						{
 							destruido = escudo2.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup2.members[i].destroy();
@@ -523,7 +511,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bullet, escudoGroup3.members[i]))
 						{
 							destruido = escudo3.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup3.members[i].destroy();
@@ -538,7 +525,6 @@ class PlayState extends FlxState
 						if (FlxG.overlap(bullet, escudoGroup4.members[i]))
 						{
 							destruido = escudo4.vida(i);
-							trace(destruido);
 							if (destruido == "muerto")
 							{
 								escudoGroup4.members[i].destroy();
@@ -682,21 +668,26 @@ class PlayState extends FlxState
 			deadTime += elapsed;
 			if (deadTime > deadTimeControl)
 			{
+				deadTime = 0;
 				if (deadCont == 0)
 				{
+					explosionPlayer.play();
 					player.loadGraphic("assets/img/gif/explocion_1.png");
+					deadCont += 1;
 				}
-				if (deadCont == 1)
+				else if (deadCont == 1)
 				{
 					player.loadGraphic("assets/img/gif/explocion_2.png");
+					deadCont += 1;
 				}
-				if (deadCont == 2)
+				else if (deadCont == 2)
 				{
 					player.loadGraphic("assets/img/gif/explocion_3.png");
+					deadCont += 1;
 				}
-				if (deadCont == 4)
+				else if (deadCont == 3)
 				{
-					deadTime = 0;
+					deadTime = 10;
 					deadCont = 0;
 					deadTimeControl = 0.2;
 					if (Reg.cantVidas == -1)
@@ -711,8 +702,6 @@ class PlayState extends FlxState
 						AlienPlay();
 					}
 				}
-				deadTime = 0;
-				deadCont += 1;
 			}
 		}
 	}

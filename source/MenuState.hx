@@ -29,7 +29,6 @@ class MenuState extends FlxState
 	{
 		super.update(elapsed);
 		time += elapsed;
-		trace(time);
 		if (time >= 5)
 		{
 			menu.loadGraphic("assets/img/gif/menu.png");
