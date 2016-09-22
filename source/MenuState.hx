@@ -10,13 +10,8 @@ import flixel.math.FlxMath;
 class MenuState extends FlxState
 {
 	private var menu:FlxSprite;
-	
-<<<<<<< HEAD
 	private var time:Float = 0;
 	private var highScore:Highscore;
-=======
-	private var time:Float=0;
->>>>>>> origin/master
 
 	override public function create():Void
 	{

@@ -89,8 +89,6 @@ class PlayState extends FlxState
 		AlienMaker();
 		gamemode = 1;
 		FlxG.camera.bgColor = 0xff0f380f;
-		
-<<<<<<< HEAD
 		FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);
 		bulletSfx = FlxG.sound.load("assets/sounds/Bullet.wav");
 		explosionAlien = FlxG.sound.load("assets/sounds/Explosion_Alien.wav");
@@ -98,10 +96,6 @@ class PlayState extends FlxState
 		ovniUnspawnSfx = FlxG.sound.load("assets/music/Ovni_Unspawn.wav");
 		youWin = FlxG.sound.load("assets/music/youWin.wav");
 		youLose = FlxG.sound.load("assets/music/Game-over-yeah.wav");
-=======
->>>>>>> origin/master
-
-		
 	}
 
 	override public function update(elapsed:Float):Void
