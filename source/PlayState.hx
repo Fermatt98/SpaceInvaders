@@ -156,18 +156,6 @@ class PlayState extends FlxState
 				}
 				
 			}
-			// ----- ANIMACION -----//
-			/*
-			if (animacionTimer >= Reg.animacionControlTime)
-			{
-				for (a in 0...alien.length - 1)
-				{
-					alien[a].animar();
-				}
-				animacionTimer = 0;
-			}
-			*/
-			//----------------------//
 			if (enemyShootTimer >= Reg.enemyShootTime)
 			{
 				if (shootEnemy == false)
@@ -281,10 +269,6 @@ class PlayState extends FlxState
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
 						gamemode = 4;
 						Reg.cantVidas -= 1;
-						if (Reg.cantVidas == -1)
-						{
-							gamemode = 3;
-						}
 						bulletOvni.destroy();
 						ovniShoot = false;
 					}
@@ -365,10 +349,6 @@ class PlayState extends FlxState
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
 						gamemode = 4;
 						Reg.cantVidas -= 1;
-						if (Reg.cantVidas == -1)
-						{
-							gamemode = 3;
-						}
 						bulletEnemy.destroy();
 						shootEnemy = false;
 					}
@@ -449,10 +429,6 @@ class PlayState extends FlxState
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
 						gamemode = 4;
 						Reg.cantVidas -= 1;
-						if (Reg.cantVidas == -1)
-						{
-							gamemode = 3;
-						}
 						bulletEnemy2.destroy();
 						shootEnemy2 = false;
 					}
@@ -622,9 +598,10 @@ class PlayState extends FlxState
 						alien[k].velocity.x *= -1;
 					}
 				}
-				if (alien[i].y >= FlxG.height - alien[i].height)
+				if (alien[i].y >= FlxG.height - alien[i].height && alien[i].exists)
 				{
-					gamemode = 3;
+					gamemode = 4;
+					Reg.cantVidas = -1;
 				}
 			}
 			colision = false;
@@ -698,12 +675,20 @@ class PlayState extends FlxState
 				}
 				if (deadCont == 4)
 				{
-					player.loadGraphic("assets/img/gif/nave.png");
-					gamemode = 1;
 					deadTime = 0;
 					deadCont = 0;
 					deadTimeControl = 0.2;
-					AlienPlay();
+					if (Reg.cantVidas == -1)
+					{
+						player.kill();
+						gamemode = 3;
+					}
+					else
+					{
+						gamemode = 1;
+						player.loadGraphic("assets/img/gif/nave.png");
+						AlienPlay();
+					}
 				}
 				deadTime = 0;
 				deadCont += 1;
@@ -722,6 +707,8 @@ class PlayState extends FlxState
 				add(alien[i*8+k]);
 			}
 		}
+		ovni = new Ovni();
+		ovni.kill();
 	}
 	
 	private function AlienStop()
@@ -734,7 +721,7 @@ class PlayState extends FlxState
 			}
 			
 		}
-		
+		player.velocity.x = 0;
 		if (ovni.exists)
 		{
 			ovni.velocity.x = 0;

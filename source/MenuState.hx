@@ -22,6 +22,7 @@ class MenuState extends FlxState
 		highScore = new Highscore();
 		add(menu);
 		Reg.cantVidas = 2;
+		FlxG.mouse.visible = false;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -29,12 +30,12 @@ class MenuState extends FlxState
 		super.update(elapsed);
 		time += elapsed;
 		trace(time);
-		if (time >= 2)
+		if (time >= 5)
 		{
 			menu.loadGraphic("assets/img/gif/menu.png");
 			add(highScore);
 		}
-		if (FlxG.keys.justPressed.SPACE && time > 2)
+		if (FlxG.keys.justPressed.SPACE && time > 5)
 		{
 			FlxG.switchState(new PlayState());
 			highScore.destroy();
