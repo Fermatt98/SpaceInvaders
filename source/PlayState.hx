@@ -64,6 +64,7 @@ class PlayState extends FlxState
 	private var bulletDead2:Bool = false;
 	private var continuar:Bool = false;
 	private var deadCont:Int = 0;
+	private var alienRight:Bool = true;
 	
 	
 	override public function create():Void
@@ -102,6 +103,12 @@ class PlayState extends FlxState
 		ovniUnspawnSfx = FlxG.sound.load("assets/music/Ovni_Unspawn.wav");
 		youWin = FlxG.sound.load("assets/music/youWin.wav");
 		youLose = FlxG.sound.load("assets/music/Game-over-yeah.wav");
+		bullet = new Bullet();
+		bullet.kill();
+		bulletEnemy = new Bullet();
+		bulletEnemy.kill();
+		bulletEnemy2 = new Bullet();
+		bulletEnemy2.kill();
 	}
 
 	override public function update(elapsed:Float):Void
@@ -142,7 +149,7 @@ class PlayState extends FlxState
 			}
 			if (ovniExists == true)
 			{
-				if (ovni.x < 0)
+				if (ovni.x < 0 - ovni.width)
 				{
 					ovni.destroy();
 					ovniExists = false;
@@ -274,11 +281,11 @@ class PlayState extends FlxState
 					}
 				}
 			}
-			if (shootEnemy == true)
+			if (shootEnemy == true && bulletEnemy.exists)
 			{
 				if (bulletEnemy.y > 140)
 				{
-					bulletEnemy.destroy();
+					bulletEnemy.kill();
 					shootEnemy = false;
 				}
 				else
@@ -294,7 +301,7 @@ class PlayState extends FlxState
 								escudoGroup.members[i].destroy();
 								escudoGroup.remove(escudoGroup.members[ i]);
 							}
-							bulletEnemy.destroy();
+							bulletEnemy.kill();
 							shootEnemy = false;
 						}
 					}
@@ -309,7 +316,7 @@ class PlayState extends FlxState
 								escudoGroup2.members[i].destroy();
 								escudoGroup2.remove(escudoGroup2.members[ i]);
 							}
-							bulletEnemy.destroy();
+							bulletEnemy.kill();
 							shootEnemy= false;
 						}
 					}
@@ -324,7 +331,7 @@ class PlayState extends FlxState
 								escudoGroup3.members[i].destroy();
 								escudoGroup3.remove(escudoGroup3.members[ i]);
 							}
-							bulletEnemy.destroy();
+							bulletEnemy.kill();
 							shootEnemy = false;
 						}
 					}
@@ -339,7 +346,7 @@ class PlayState extends FlxState
 								escudoGroup4.members[i].destroy();
 								escudoGroup4.remove(escudoGroup4.members[ i]);
 							}
-							bulletEnemy.destroy();
+							bulletEnemy.kill();
 							shootEnemy = false;
 						}
 					}
@@ -349,16 +356,16 @@ class PlayState extends FlxState
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
 						gamemode = 4;
 						Reg.cantVidas -= 1;
-						bulletEnemy.destroy();
+						bulletEnemy.kill();
 						shootEnemy = false;
 					}
 				}
 			}
-			if (shootEnemy2 == true)
+			if (shootEnemy2 == true && bulletEnemy2.exists)
 			{
 				if (bulletEnemy2.y > 140)
 				{
-					bulletEnemy2.destroy();
+					bulletEnemy2.kill();
 					shootEnemy2 = false;
 				}
 				else
@@ -374,7 +381,7 @@ class PlayState extends FlxState
 								escudoGroup.members[i].destroy();
 								escudoGroup.remove(escudoGroup.members[ i]);
 							}
-							bulletEnemy2.destroy();
+							bulletEnemy2.kill();
 							shootEnemy2 = false;
 						}
 					}
@@ -389,7 +396,7 @@ class PlayState extends FlxState
 								escudoGroup2.members[i].destroy();
 								escudoGroup2.remove(escudoGroup2.members[ i]);
 							}
-							bulletEnemy2.destroy();
+							bulletEnemy2.kill();
 							shootEnemy2= false;
 						}
 					}
@@ -404,7 +411,7 @@ class PlayState extends FlxState
 								escudoGroup3.members[i].destroy();
 								escudoGroup3.remove(escudoGroup3.members[ i]);
 							}
-							bulletEnemy2.destroy();
+							bulletEnemy2.kill();
 							shootEnemy2 = false;
 						}
 					}
@@ -419,7 +426,7 @@ class PlayState extends FlxState
 								escudoGroup4.members[i].destroy();
 								escudoGroup4.remove(escudoGroup4.members[ i]);
 							}
-							bulletEnemy2.destroy();
+							bulletEnemy2.kill();
 							shootEnemy2 = false;
 						}
 					}
@@ -429,16 +436,16 @@ class PlayState extends FlxState
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
 						gamemode = 4;
 						Reg.cantVidas -= 1;
-						bulletEnemy2.destroy();
+						bulletEnemy2.kill();
 						shootEnemy2 = false;
 					}
 				}
 			}
-			if (shoot == true)
+			if (shoot == true && bullet.exists)
 			{
 				if (bullet.y < 0)
 				{
-					bullet.destroy();
+					bullet.kill();
 					shoot = false;
 				}
 				else if (FlxG.overlap(bullet, ovni))
@@ -447,7 +454,7 @@ class PlayState extends FlxState
 					ovniExists = false;
 					scoreText.addScore(Reg.puntosOvni);
 					shoot = false;
-					bullet.destroy();
+					bullet.kill();
 					FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);
 					ovniUnspawnSfx.play();
 				}
@@ -462,7 +469,7 @@ class PlayState extends FlxState
 							if (i >= 8 && i <= 23) scoreText.addScore(Reg.puntosEnemigo2);
 							if ( i >= 24 && i <= enemyGroup.length) scoreText.addScore(Reg.puntosEnemigo1);
 							killCounter += 1;
-							bullet.destroy();
+							bullet.kill();
 							explosionAlien.play();
 							shoot = false;
 							for (i in 0...alien.length)
@@ -492,7 +499,7 @@ class PlayState extends FlxState
 								escudoGroup.members[i].destroy();
 								escudoGroup.remove(escudoGroup.members[ i]);
 							}
-							bullet.destroy();
+							bullet.kill();
 							shoot = false;
 						}
 					}
@@ -507,7 +514,7 @@ class PlayState extends FlxState
 								escudoGroup2.members[i].destroy();
 								escudoGroup2.remove(escudoGroup2.members[ i]);
 							}
-							bullet.destroy();
+							bullet.kill();
 							shoot = false;
 						}
 					}
@@ -522,7 +529,7 @@ class PlayState extends FlxState
 								escudoGroup3.members[i].destroy();
 								escudoGroup3.remove(escudoGroup3.members[ i]);
 							}
-							bullet.destroy();
+							bullet.kill();
 							shoot = false;
 						}
 					}
@@ -537,7 +544,7 @@ class PlayState extends FlxState
 								escudoGroup4.members[i].destroy();
 								escudoGroup4 .remove(escudoGroup4.members[ i]);
 							}
-							bullet.destroy();
+							bullet.kill();
 							shoot = false;
 						}
 					}
@@ -589,13 +596,21 @@ class PlayState extends FlxState
 			// fin colicion aliens//
 			for (i in 0...alien.length)
 			{
-				if ((alien[i].x < 0 || alien[i].x > 160 - alien[i].width) && colision == false)
+				if (((alien[i].x < 0 || alien[i].x > 160 - alien[i].width) && colision == false) && alien[i].exists)
 				{
 					colision = true;
 					for (k in 0...alien.length)
 					{
 						alien[k].y += 8;
 						alien[k].velocity.x *= -1;
+						if (alien[k].velocity.x < 0)
+						{
+							alienRight = false;
+						}
+						else
+						{
+							alienRight = true;
+						}
 					}
 				}
 				if (alien[i].y >= FlxG.height - alien[i].height && alien[i].exists)
@@ -619,10 +634,12 @@ class PlayState extends FlxState
 				menu = new FlxSprite();
 				menu.makeGraphic(160, 144);
 				menu.loadGraphic("assets/img/gif/win.png");
+				menu.x = FlxG.width / 2 -menu.width / 2;
+				menu.y = FlxG.height / 2 -menu.height / 2;
 				add(menu);
 				winMenu = true;
 				youWin.play();
-
+				AlienStop();
 			}
 			if (menuTimer >= Reg.menuTime)
 			{
@@ -639,9 +656,11 @@ class PlayState extends FlxState
 			if (winMenu == false)
 			{
 				FlxG.sound.pause();
-				menu = new FlxSprite(55,55);
+				menu = new FlxSprite();
 				menu.makeGraphic(160, 144);
 				menu.loadGraphic("assets/img/gif/lose.png");
+				menu.x = FlxG.width / 2 -menu.width / 2;
+				menu.y = FlxG.height / 2 -menu.height / 2;
 				youLose.play();
 				add(menu);
 				winMenu = true;
@@ -653,6 +672,8 @@ class PlayState extends FlxState
 				menuTimer = 0;
 				killCounter = 0;
 				gamemode = 1;
+				AlienPlay(); 
+				
 			}
 		}
 		else if (gamemode == 4)
@@ -736,6 +757,10 @@ class PlayState extends FlxState
 			if (alien[i].exists)
 			{
 				alien[i].velocity.x = 5 + (killCounter / 2);
+				if (alienRight == false)
+				{
+					alien[i].velocity.x *=-1;
+				}
 			}
 			
 		}

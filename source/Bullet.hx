@@ -10,7 +10,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class Bullet extends FlxSprite
 {
 
-	public function new(?X:Float=0, ?Y:Float=0, direccion:Int, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(?X:Float=0, ?Y:Float=0, ?direccion:Int=1, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(2, 4);
