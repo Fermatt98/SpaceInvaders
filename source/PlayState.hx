@@ -276,6 +276,16 @@ class PlayState extends FlxState
 						bulletOvni.destroy();
 						ovniShoot = false;
 					}
+					if (shoot == true)
+					{
+						if (FlxG.overlap(bulletOvni, bullet))
+						{	
+							bulletOvni.destroy();
+							ovniShoot = false;
+							bullet.destroy();
+							shoot = false;
+						}
+					}
 				}
 			}
 			if (shootEnemy == true && bulletEnemy.exists)
@@ -351,6 +361,16 @@ class PlayState extends FlxState
 						Reg.cantVidas -= 1;
 						bulletEnemy.kill();
 						shootEnemy = false;
+					}
+					if (shoot == true)
+					{
+						if (FlxG.overlap(bulletEnemy, bullet))
+						{	
+							bulletEnemy.destroy();
+							shootEnemy = false;
+							bullet.destroy();
+							shoot = false;
+						}
 					}
 				}
 			}
@@ -428,6 +448,16 @@ class PlayState extends FlxState
 						bulletEnemy2.kill();
 						shootEnemy2 = false;
 					}
+					if (shoot == true)
+					{
+						if (FlxG.overlap(bulletEnemy2, bullet))
+						{	
+							bulletEnemy2.destroy();
+							shootEnemy2 = false;
+							bullet.destroy();
+							shoot = false;
+						}
+					}
 				}
 			}
 			if (shoot == true && bullet.exists)
@@ -468,11 +498,11 @@ class PlayState extends FlxState
 								{
 									if (alien[i].velocity.x < 0)
 									{
-										alien[i].velocity.x = (Reg.velAlien + (killCounter / 2))*-1;
+										alien[i].velocity.x = (Reg.velAlien + (killCounter ))*-1;
 									}
 									else
 									{
-										alien[i].velocity.x = Reg.velAlien + (killCounter / 2);
+										alien[i].velocity.x = Reg.velAlien + (killCounter );
 									}
 								}
 							}
