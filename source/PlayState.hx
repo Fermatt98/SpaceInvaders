@@ -58,6 +58,12 @@ class PlayState extends FlxState
 	private var vidas:VidaMaker;
 	private var vidasGroup:FlxGroup;
 	private var youLose:FlxSound;
+	private var deadTime:Float = 0;
+	private var deadTimeControl:Float = 0.2;
+	private var bulletDead:Bool = false;
+	private var bulletDead2:Bool = false;
+	private var continuar:Bool = false;
+	private var deadCont:Int = 0;
 	
 	
 	override public function create():Void
@@ -273,6 +279,7 @@ class PlayState extends FlxState
 					{	
 						vidasGroup.members[Reg.cantVidas].destroy();
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
+						gamemode = 4;
 						Reg.cantVidas -= 1;
 						if (Reg.cantVidas == -1)
 						{
@@ -356,6 +363,7 @@ class PlayState extends FlxState
 					{	
 						vidasGroup.members[Reg.cantVidas].destroy();
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
+						gamemode = 4;
 						Reg.cantVidas -= 1;
 						if (Reg.cantVidas == -1)
 						{
@@ -439,6 +447,7 @@ class PlayState extends FlxState
 					{	
 						vidasGroup.members[Reg.cantVidas].destroy();
 						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
+						gamemode = 4;
 						Reg.cantVidas -= 1;
 						if (Reg.cantVidas == -1)
 						{
@@ -669,6 +678,37 @@ class PlayState extends FlxState
 				gamemode = 1;
 			}
 		}
+		else if (gamemode == 4)
+		{
+			AlienStop();
+			deadTime += elapsed;
+			if (deadTime > deadTimeControl)
+			{
+				if (deadCont == 0)
+				{
+					player.loadGraphic("assets/img/gif/explocion_1.png");
+				}
+				if (deadCont == 1)
+				{
+					player.loadGraphic("assets/img/gif/explocion_2.png");
+				}
+				if (deadCont == 2)
+				{
+					player.loadGraphic("assets/img/gif/explocion_3.png");
+				}
+				if (deadCont == 4)
+				{
+					player.loadGraphic("assets/img/gif/nave.png");
+					gamemode = 1;
+					deadTime = 0;
+					deadCont = 0;
+					deadTimeControl = 0.2;
+					AlienPlay();
+				}
+				deadTime = 0;
+				deadCont += 1;
+			}
+		}
 	}
 	
 	public function AlienMaker()
@@ -681,6 +721,40 @@ class PlayState extends FlxState
 				enemyGroup.add(alien[i * 8 + k]);
 				add(alien[i*8+k]);
 			}
+		}
+	}
+	
+	private function AlienStop()
+	{
+		for (i in 0...alien.length)
+		{
+			if (alien[i].exists)
+			{
+				alien[i].velocity.x = 0;
+			}
+			
+		}
+		
+		if (ovni.exists)
+		{
+			ovni.velocity.x = 0;
+
+		}
+	}
+	
+	private function AlienPlay()
+	{
+		for (i in 0...alien.length)
+		{
+			if (alien[i].exists)
+			{
+				alien[i].velocity.x = 5 + (killCounter / 2);
+			}
+			
+		}
+		if (ovni.exists)
+		{
+			ovni.velocity.x = -40;
 		}
 	}
 }
