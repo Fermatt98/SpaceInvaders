@@ -10,28 +10,35 @@ import flixel.math.FlxMath;
 class MenuState extends FlxState
 {
 	private var menu:FlxSprite;
-	private var time:Float;
+	private var time:Float = 0;
+	private var highScore:Highscore;
 	override public function create():Void
 	{
 		super.create();
 		menu = new FlxSprite();
 		menu.makeGraphic(160, 144);
 		menu.loadGraphic("assets/img/gif/previa.png");
+		highScore = new Highscore();
 		add(menu);
+		Reg.cantVidas = 2;
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		time = time + elapsed;
+		time += elapsed;
 		trace(time);
-		if (time >= 9)
+		if (time >= 2)
 		{
 			menu.loadGraphic("assets/img/gif/menu.png");
+			add(highScore);
 		}
-		if (FlxG.keys.justPressed.SPACE && time > 10)
+		if (FlxG.keys.justPressed.SPACE && time > 2)
 		{
 			FlxG.switchState(new PlayState());
+			highScore.destroy();
+			Reg._score = 0;
 		}	
 	}
 }
+

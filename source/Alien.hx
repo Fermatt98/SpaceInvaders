@@ -35,7 +35,7 @@ class Alien extends FlxSprite
 		}
 		x = X;
 		y = Y;
-		velocity.x = 5;
+		velocity.x = Reg.velAlien;
 	}
 	override public function update(elapsed:Float):Void
 	{

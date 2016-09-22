@@ -5,9 +5,11 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.math.FlxRandom;
+import flixel.system.FlxAssets.FlxSoundAsset;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import flixel.system.FlxSound;
 
 class PlayState extends FlxState
 {
@@ -48,6 +50,14 @@ class PlayState extends FlxState
 	private var menu:FlxSprite;
 	private var winMenu:Bool = false;
 	private var menuTimer:Float = 0;
+	private var bulletSfx:FlxSound;
+	private var explosionAlien:FlxSound;
+	private var ovniSpawnSfx:FlxSound;
+	private var ovniUnspawnSfx:FlxSound;
+	private var youWin:FlxSound;
+	private var vidas:VidaMaker;
+	private var vidasGroup:FlxGroup;
+	private var youLose:FlxSound;
 	
 	
 	override public function create():Void
@@ -63,11 +73,14 @@ class PlayState extends FlxState
 		escudo2 = new EscudoMaker(53, 110);
 		escudo3 = new EscudoMaker(82, 110);
 		escudo4 = new EscudoMaker(111, 110);
+		vidas = new VidaMaker(100, 3);
 		imagen = 0;
 		escudoGroup = escudo.getGroup();
 		escudoGroup2 = escudo2.getGroup();
 		escudoGroup3 = escudo3.getGroup();
 		escudoGroup4 = escudo4.getGroup();
+		vidasGroup = vidas.getGroup();
+		add(vidasGroup);
 		add(player);
 		add(scoreText);
 		alien = new Array<FlxSprite>();
@@ -75,7 +88,14 @@ class PlayState extends FlxState
 		rndEnemy = new FlxRandom();
 		AlienMaker();
 		gamemode = 1;
-		//FlxG.camera.bgColor = 0xff9cbd0f;
+		FlxG.camera.bgColor = 0xff0f380f;
+		FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);
+		bulletSfx = FlxG.sound.load("assets/sounds/Bullet.wav");
+		explosionAlien = FlxG.sound.load("assets/sounds/Explosion_Alien.wav");
+		ovniSpawnSfx = FlxG.sound.load("assets/music/Ovni_Spawn.wav");
+		ovniUnspawnSfx = FlxG.sound.load("assets/music/Ovni_Unspawn.wav");
+		youWin = FlxG.sound.load("assets/music/youWin.wav");
+		youLose = FlxG.sound.load("assets/music/Game-over-yeah.wav");
 		
 	}
 
@@ -103,6 +123,8 @@ class PlayState extends FlxState
 			{
 				bullet = new Bullet((player.x + (player.width/2)), (player.y + (player.height/2)),1);
 				add(bullet);
+				bulletSfx.stop();
+				bulletSfx.play();
 				shoot = true;
 			}
 			if (ovniTimer >= Reg.ovniTime)
@@ -111,6 +133,7 @@ class PlayState extends FlxState
 				add(ovni);
 				ovniExists = true;
 				ovniTimer = 0;
+				FlxG.sound.playMusic("assets/music/Ovni_Spawn.wav", 1, true);
 			}
 			if (ovniExists == true)
 			{
@@ -118,6 +141,7 @@ class PlayState extends FlxState
 				{
 					ovni.destroy();
 					ovniExists = false;
+					FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);                      
 				}
 				if (ovniShoot == false)
 				{
@@ -246,6 +270,18 @@ class PlayState extends FlxState
 							ovniShoot = false;
 						}
 					}
+					if (FlxG.overlap(bulletOvni, player))
+					{	
+						vidasGroup.members[Reg.cantVidas].destroy();
+						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
+						Reg.cantVidas -= 1;
+						if (Reg.cantVidas == -1)
+						{
+							gamemode = 3;
+						}
+						bulletOvni.destroy();
+						ovniShoot = false;
+					}
 				}
 			}
 			if (shootEnemy == true)
@@ -316,6 +352,18 @@ class PlayState extends FlxState
 							bulletEnemy.destroy();
 							shootEnemy = false;
 						}
+					}
+					if (FlxG.overlap(bulletEnemy, player))
+					{	
+						vidasGroup.members[Reg.cantVidas].destroy();
+						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
+						Reg.cantVidas -= 1;
+						if (Reg.cantVidas == -1)
+						{
+							gamemode = 3;
+						}
+						bulletEnemy.destroy();
+						shootEnemy = false;
 					}
 				}
 			}
@@ -388,6 +436,18 @@ class PlayState extends FlxState
 							shootEnemy2 = false;
 						}
 					}
+					if (FlxG.overlap(bulletEnemy2, player))
+					{	
+						vidasGroup.members[Reg.cantVidas].destroy();
+						vidasGroup.remove(vidasGroup.members[Reg.cantVidas]);
+						Reg.cantVidas -= 1;
+						if (Reg.cantVidas == -1)
+						{
+							gamemode = 3;
+						}
+						bulletEnemy2.destroy();
+						shootEnemy2 = false;
+					}
 				}
 			}
 			if (shoot == true)
@@ -404,6 +464,8 @@ class PlayState extends FlxState
 					scoreText.addScore(Reg.puntosOvni);
 					shoot = false;
 					bullet.destroy();
+					FlxG.sound.playMusic("assets/music/Space_invaders_gameplay.wav", 1, true);
+					ovniUnspawnSfx.play();
 				}
 				else
 				{
@@ -417,6 +479,7 @@ class PlayState extends FlxState
 							if ( i >= 24 && i <= enemyGroup.length) scoreText.addScore(Reg.puntosEnemigo1);
 							killCounter += 1;
 							bullet.destroy();
+							explosionAlien.play();
 							shoot = false;
 							for (i in 0...alien.length)
 							{
@@ -424,11 +487,11 @@ class PlayState extends FlxState
 								{
 									if (alien[i].velocity.x < 0)
 									{
-										alien[i].velocity.x = (5 + (killCounter / 2))*-1;
+										alien[i].velocity.x = (Reg.velAlien + (killCounter / 2))*-1;
 									}
 									else
 									{
-										alien[i].velocity.x = 5 + (killCounter / 2);
+										alien[i].velocity.x = Reg.velAlien + (killCounter / 2);
 									}
 								}
 							}
@@ -544,12 +607,16 @@ class PlayState extends FlxState
 			{
 				if ((alien[i].x < 0 || alien[i].x > 160 - alien[i].width) && colision == false)
 				{
+					colision = true;
 					for (k in 0...alien.length)
 					{
 						alien[k].y += 8;
 						alien[k].velocity.x *= -1;
 					}
-					colision = true;
+				}
+				if (alien[i].y >= FlxG.height - alien[i].height)
+				{
+					gamemode = 3;
 				}
 			}
 			colision = false;
@@ -563,16 +630,41 @@ class PlayState extends FlxState
 			menuTimer += elapsed;
 			if (winMenu == false)
 			{
+				FlxG.sound.pause();
 				menu = new FlxSprite();
 				menu.makeGraphic(160, 144);
 				menu.loadGraphic("assets/img/gif/win.png");
+				add(menu);
+				winMenu = true;
+				youWin.play();
+
+			}
+			if (menuTimer >= Reg.menuTime)
+			{
+				menu.destroy();
+				FlxG.resetState();
+				menuTimer = 0;
+				killCounter = 0;
+				gamemode = 1;
+			}
+		}
+		else if (gamemode == 3)
+		{
+			menuTimer += elapsed;
+			if (winMenu == false)
+			{
+				FlxG.sound.pause();
+				menu = new FlxSprite(55,55);
+				menu.makeGraphic(160, 144);
+				menu.loadGraphic("assets/img/gif/lose.png");
+				youLose.play();
 				add(menu);
 				winMenu = true;
 			}
 			if (menuTimer >= Reg.menuTime)
 			{
 				menu.destroy();
-				create();
+				FlxG.switchState(new MenuState());
 				menuTimer = 0;
 				killCounter = 0;
 				gamemode = 1;
