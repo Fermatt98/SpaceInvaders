@@ -135,7 +135,7 @@ class PlayState extends FlxState
 			}
 			if (FlxG.keys.justPressed.SPACE && shoot == false)
 			{
-				bullet = new Bullet((player.x + (player.width/2)), (player.y + (player.height/2)),1);
+				bullet = new Bullet((player.x + (player.width/2)), player.y,1);
 				add(bullet);
 				bulletSfx.stop();
 				bulletSfx.play();
@@ -198,6 +198,7 @@ class PlayState extends FlxState
 						{
 							rndEntero = rndEnemy.int(0, alien.length - 1);
 						}
+						
 					}	
 				}
 				enemyShootTimer = 0;
@@ -787,5 +788,12 @@ class PlayState extends FlxState
 		{
 			ovni.velocity.x = -40;
 		}
+		bullet.kill();
+		bulletEnemy.kill();
+		bulletEnemy2.kill();
+		shoot = false;
+		shootEnemy = false;
+		shootEnemy2 = false;
+		ovniShoot = false;
 	}
 }
